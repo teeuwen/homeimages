@@ -1,0 +1,43 @@
+{
+    $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+    extends: [
+        'config:recommended',
+    ],
+    timezone: 'Europe/Amsterdam',
+    dependencyDashboard: true,
+    dependencyDashboardTitle: 'Dependency Dashboard',
+    semanticCommits: 'enabled',
+    semanticCommitType: 'chore',
+    commitMessageTopic: '{{ depName }}',
+    commitMessageExtra: 'from {{ currentVersion }} to {{ newVersion }}',
+    enabledManagers: [
+        'custom.regex',
+        'dockerfile',
+    ],
+    customManagers: [
+        {
+            customType: 'regex',
+            fileMatch: ['^.env$'],
+            matchStrings: [
+                '# renovate: datasource=deb release=(?<release>.*?) depName=(?<depName>.*?)\\n.*_VERSION=(?<currentValue>.*)'
+            ],
+            registryUrlTemplate: 'https://deb.debian.org/debian?release={{release}}&components=main&binaryArch=amd64',
+            datasourceTemplate: 'deb',
+        },
+        {
+            customType: 'regex',
+            fileMatch: ['^.env$'],
+            matchStrings: [
+                '# renovate: datasource=github-releases depName=(?<depName>.*?)\\n.*_VERSION=(?<currentValue>.*)'
+            ],
+            datasourceTemplate: 'github-releases',
+        },
+    ],
+    packageRules: [
+        {
+            matchDatasources: ['deb'],
+            extractVersion: '^(?<version>.*?)(\\+.*)?$',
+            versioning: 'deb',
+        },
+    ],
+}
