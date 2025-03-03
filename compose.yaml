@@ -1,0 +1,10 @@
+---
+
+services:
+  baikal:
+    image: ghcr.io/teeuwen/baikal:${BAIKAL_VERSION}
+    build:
+      context: ./baikal
+      args:
+        BUILDKIT_DOCKERFILE_CHECK: ${BUILDKIT_DOCKERFILE_CHECK}
+        baikal_version: ${BAIKAL_VERSION}
