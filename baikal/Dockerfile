@@ -26,6 +26,12 @@ RUN apk add --no-cache \
     && sed -i 's/^;listen.group = .*/listen.group = nginx/' /etc/php${php_version}/php-fpm.d/www.conf \
     && sed -i 's/^listen = .*/listen = \/var\/run\/php-fpm.sock/' /etc/php${php_version}/php-fpm.d/www.conf
 
+# Baikal does not create this folder on its own
+COPY --chmod=755 <<EOF /docker-entrypoint.d/30-create-baikal-db-folder.sh
+#!/bin/sh
+mkdir -p /var/www/baikal/Specific/db
+EOF
+
 COPY --chmod=755 <<EOF /docker-entrypoint.d/40-php-fpm.sh
 #!/bin/sh
 /usr/sbin/php-fpm${php_version} --daemonize
