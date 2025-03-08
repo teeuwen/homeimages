@@ -1,30 +1,30 @@
 FROM public.ecr.aws/docker/library/busybox:latest AS builder
-ARG baikal_version
+ARG BAIKAL_VERSION
 
-ADD https://github.com/sabre-io/Baikal/releases/download/${baikal_version}/baikal-${baikal_version}.zip .
-RUN unzip -q baikal-${baikal_version}.zip
+ADD https://github.com/sabre-io/Baikal/releases/download/${BAIKAL_VERSION}/baikal-${BAIKAL_VERSION}.zip .
+RUN unzip -q baikal-${BAIKAL_VERSION}.zip
 
 FROM public.ecr.aws/nginx/nginx:1.27.4-alpine-slim
-ARG baikal_version
+ARG BAIKAL_VERSION
 
-ENV php_version=83
+ENV PHP_VERSION=83
 RUN apk add --no-cache \
-    php${php_version} \
-    php${php_version}-curl \
-    php${php_version}-fpm \
-    php${php_version}-mbstring \
-    php${php_version}-openssl \
-    php${php_version}-pdo \
-    php${php_version}-pdo_sqlite \
-    php${php_version}-session \
-    php${php_version}-sqlite3 \
-    php${php_version}-xml \
+    php${PHP_VERSION} \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-fpm \
+    php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-openssl \
+    php${PHP_VERSION}-pdo \
+    php${PHP_VERSION}-pdo_sqlite \
+    php${PHP_VERSION}-session \
+    php${PHP_VERSION}-sqlite3 \
+    php${PHP_VERSION}-xml \
     openssl \
-    && sed -i 's/^user = .*/user = nginx/' /etc/php${php_version}/php-fpm.d/www.conf \
-    && sed -i 's/^group = .*/group = nginx/' /etc/php${php_version}/php-fpm.d/www.conf \
-    && sed -i 's/^;listen.owner = .*/listen.owner = nginx/' /etc/php${php_version}/php-fpm.d/www.conf \
-    && sed -i 's/^;listen.group = .*/listen.group = nginx/' /etc/php${php_version}/php-fpm.d/www.conf \
-    && sed -i 's/^listen = .*/listen = \/var\/run\/php-fpm.sock/' /etc/php${php_version}/php-fpm.d/www.conf
+    && sed -i 's/^user = .*/user = nginx/' /etc/php${PHP_VERSION}/php-fpm.d/www.conf \
+    && sed -i 's/^group = .*/group = nginx/' /etc/php${PHP_VERSION}/php-fpm.d/www.conf \
+    && sed -i 's/^;listen.owner = .*/listen.owner = nginx/' /etc/php${PHP_VERSION}/php-fpm.d/www.conf \
+    && sed -i 's/^;listen.group = .*/listen.group = nginx/' /etc/php${PHP_VERSION}/php-fpm.d/www.conf \
+    && sed -i 's/^listen = .*/listen = \/var\/run\/php-fpm.sock/' /etc/php${PHP_VERSION}/php-fpm.d/www.conf
 
 # Baikal does not create this folder on its own
 COPY --chmod=755 <<EOF /docker-entrypoint.d/30-create-baikal-db-folder.sh
@@ -34,7 +34,7 @@ EOF
 
 COPY --chmod=755 <<EOF /docker-entrypoint.d/40-php-fpm.sh
 #!/bin/sh
-/usr/sbin/php-fpm${php_version} --daemonize
+/usr/sbin/php-fpm${PHP_VERSION} --daemonize
 EOF
 
 COPY --from=builder --chown=nginx:nginx baikal /var/www/baikal

@@ -7,4 +7,4 @@ services:
       context: ./baikal
       args:
         BUILDKIT_DOCKERFILE_CHECK: ${BUILDKIT_DOCKERFILE_CHECK}
-        baikal_version: ${BAIKAL_VERSION}
+        BAIKAL_VERSION: ${BAIKAL_VERSION}
