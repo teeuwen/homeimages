@@ -1,7 +1,8 @@
 {
     $schema: 'https://docs.renovatebot.com/renovate-schema.json',
     extends: [
-        'config:recommended',
+        'docker:pinDigests',
+        'workarounds:doNotUpgradeFromAlpineStableToEdge',
     ],
     timezone: 'Europe/Amsterdam',
     dependencyDashboard: true,
@@ -19,25 +20,9 @@
             customType: 'regex',
             fileMatch: ['^.env$'],
             matchStrings: [
-                '# renovate: datasource=deb release=(?<release>.*?) depName=(?<depName>.*?)\\n.*_VERSION=(?<currentValue>.*)'
+                '# renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\n.*_VERSION=(?<currentValue>.*)\\s',
             ],
-            registryUrlTemplate: 'https://deb.debian.org/debian?release={{release}}&components=main&binaryArch=amd64',
-            datasourceTemplate: 'deb',
-        },
-        {
-            customType: 'regex',
-            fileMatch: ['^.env$'],
-            matchStrings: [
-                '# renovate: datasource=github-releases depName=(?<depName>.*?)\\n.*_VERSION=(?<currentValue>.*)'
-            ],
-            datasourceTemplate: 'github-releases',
-        },
-    ],
-    packageRules: [
-        {
-            matchDatasources: ['deb'],
-            extractVersion: '^(?<version>.*?)(\\+.*)?$',
-            versioning: 'deb',
+            versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
         },
     ],
 }

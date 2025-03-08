@@ -8,3 +8,11 @@ services:
       args:
         BUILDKIT_DOCKERFILE_CHECK: ${BUILDKIT_DOCKERFILE_CHECK}
         BAIKAL_VERSION: ${BAIKAL_VERSION}
+
+  postfix:
+    image: ghcr.io/teeuwen/postfix:${POSTFIX_VERSION}
+    build:
+      context: ./postfix
+      args:
+        BUILDKIT_DOCKERFILE_CHECK: ${BUILDKIT_DOCKERFILE_CHECK}
+        POSTFIX_VERSION: ${POSTFIX_VERSION}
