@@ -1,12 +1,15 @@
 ---
 
+x-buildkit-config: &buildkit_config
+  BUILDKIT_DOCKERFILE_CHECK: error=true;skip=InvalidDefaultArgInFrom
+
 services:
   baikal:
     image: ghcr.io/teeuwen/baikal:${BAIKAL_VERSION}
     build:
       context: ./baikal
       args:
-        BUILDKIT_DOCKERFILE_CHECK: ${BUILDKIT_DOCKERFILE_CHECK}
+        <<: *buildkit_config
         BAIKAL_VERSION: ${BAIKAL_VERSION}
 
   postfix:
@@ -14,5 +17,5 @@ services:
     build:
       context: ./postfix
       args:
-        BUILDKIT_DOCKERFILE_CHECK: ${BUILDKIT_DOCKERFILE_CHECK}
+        <<: *buildkit_config
         POSTFIX_VERSION: ${POSTFIX_VERSION}
