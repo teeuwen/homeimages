@@ -19,6 +19,7 @@ RUN apk add --no-cache \
     php${PHP_VERSION}-session \
     php${PHP_VERSION}-sqlite3 \
     php${PHP_VERSION}-xml \
+    php${PHP_VERSION}-xmlreader \
     openssl \
     && sed -i 's/^user = .*/user = nginx/' /etc/php${PHP_VERSION}/php-fpm.d/www.conf \
     && sed -i 's/^group = .*/group = nginx/' /etc/php${PHP_VERSION}/php-fpm.d/www.conf \
