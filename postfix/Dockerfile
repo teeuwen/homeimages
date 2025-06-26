@@ -2,6 +2,7 @@ FROM public.ecr.aws/docker/library/alpine:3.22.0@sha256:8a1f59ffb675680d47db6337
 ARG POSTFIX_VERSION
 
 RUN apk add --no-cache \
-    postfix=${POSTFIX_VERSION}
+    postfix=${POSTFIX_VERSION} \
+    postfix-mysql=${POSTFIX_VERSION}
 
 CMD ["/usr/sbin/postfix", "start-fg"]
