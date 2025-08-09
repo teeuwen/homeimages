@@ -4,7 +4,7 @@ ARG BAIKAL_VERSION
 ADD https://github.com/sabre-io/Baikal/releases/download/${BAIKAL_VERSION}/baikal-${BAIKAL_VERSION}.zip .
 RUN unzip -q baikal-${BAIKAL_VERSION}.zip
 
-FROM public.ecr.aws/nginx/nginx:1.28.0-alpine-slim@sha256:5c8ffde9b972b3f853f5ba29b1f36516c483ccc32ed3dd96dec1d341d2599b7e
+FROM public.ecr.aws/nginx/nginx:1.29.0-alpine-slim@sha256:01ada80968b9b10b230ccc45737e5a52de58771bfa0ef9613f7eb85039128730
 ARG BAIKAL_VERSION
 
 ENV PHP_VERSION=83
