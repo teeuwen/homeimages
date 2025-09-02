@@ -17,9 +17,11 @@
     customManagers: [
         {
             customType: 'regex',
-            fileMatch: ['^.env$'],
+            managerFilePatterns: [
+                '/^.+/docker-bake\\.hcl$/',
+            ],
             matchStrings: [
-                '# renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\n.*_VERSION=(?<currentValue>.*)\\s',
+                '// renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\n\\s*default = "(?<currentValue>.*)"\\s',
             ],
             versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
         },
@@ -27,7 +29,7 @@
     packageRules: [
         {
             matchDatasources: ['docker'],
-            matchCurrentValue: ['!/^latest$/'],
+            matchCurrentValue: '!/^latest$/',
             pinDigests: true,
         },
     ],

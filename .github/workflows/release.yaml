@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: Build
+name: Release
 on:  # yamllint disable-line rule:truthy
   push:
     branches: [master]
@@ -26,15 +26,15 @@ jobs:
 
           # If the previous SHA does not exist, we likely did a force push
           # In that case, we will mark all images as changed
-          if git cat-file -e $PREV_SHA; then
-            IMAGES=$(git diff --name-only ${{ github.event.before }} HEAD | sed -n 's,^\([^./][^/]*\)/.*,\1,p' | uniq | jq -R . | jq -sc .)
+          if git cat-file -e ${PREV_SHA}; then
+            IMAGES=$(git diff --name-only ${PREV_SHA} HEAD | sed -n 's,^\([^./][^/]*\)/.*,\1,p' | uniq | jq -R . | jq -sc .)
           else
             IMAGES=$(ls -d */ | sed 's/.$//' | jq -R . | jq -sc .)
           fi
 
-          echo "images=${IMAGES}" >> $GITHUB_OUTPUT
+          echo "images=${IMAGES}" >> ${GITHUB_OUTPUT}
 
-  build:
+  release:
     name: Build and push
     needs: [prepare]
     runs-on: ubuntu-latest
@@ -57,8 +57,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build ${{ matrix.image }}
-        run: docker compose -f compose.yaml build ${{ matrix.image }}
-
-      - name: Push ${{ matrix.image }}
-        run: docker compose -f compose.yaml push ${{ matrix.image }}
+      - name: Build and Push ${{ matrix.image }}
+        run: cd ${{ matrix.image }} && docker buildx bake --push
