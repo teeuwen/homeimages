@@ -58,4 +58,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push ${{ matrix.image }}
-        run: cd ${{ matrix.image }} && docker buildx bake --push
+        run: |
+          cd ${{ matrix.image }} && docker buildx bake \
+            --push \
+            --provenance=false \
+            --sbom=false
