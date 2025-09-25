@@ -5,4 +5,6 @@ RUN apk add --no-cache \
     postfix=${POSTFIX_VERSION} \
     postfix-mysql=${POSTFIX_VERSION}
 
-CMD ["/usr/sbin/postfix", "start-fg"]
+COPY --chmod=755 entrypoint.sh /
+
+ENTRYPOINT ["/entrypoint.sh"]
