@@ -1,6 +1,6 @@
 variable "BAIKAL_VERSION" {
   // renovate: datasource=github-releases depName=sabre-io/Baikal
-  default = "0.10.1"
+  default = "0.11.0"
 }
 
 target "default" {
