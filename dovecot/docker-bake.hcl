@@ -1,6 +1,6 @@
 variable "DOVECOT_VERSION" {
   // renovate: datasource=repology depName=alpine_3_23/dovecot versioning=loose
-  default = "2.4.1-r2"
+  default = "2.4.2-r1"
 }
 
 variable "RSPAMD_CLIENT_VERSION" {
