@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     dovecot-fts-flatcurve=${DOVECOT_VERSION} \
     dovecot-lmtpd=${DOVECOT_VERSION} \
     dovecot-mysql=${DOVECOT_VERSION} \
+    dovecot-pgsql=${DOVECOT_VERSION} \
     dovecot-pigeonhole-plugin=${DOVECOT_VERSION} \
     rspamd-client=${RSPAMD_CLIENT_VERSION} \
     && rm -rf /etc/dovecot/*
