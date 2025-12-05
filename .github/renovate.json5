@@ -21,14 +21,29 @@
                 '/^.+/docker-bake\\.hcl$/',
             ],
             matchStrings: [
-                '// renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\n\\s*default = "(?<currentValue>.*)"\\s',
+                '// renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\n\\s*default = "(?<currentValue>.*)"\\s',
             ],
             versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
+        },
+        {
+            customType: 'regex',
+            managerFilePatterns: [
+                '/^.+/docker-bake\\.hcl$/',
+            ],
+            matchStrings: [
+                '// renovate: datasource=repology depName=alpine_(?<currentValue>\\d+_\\d+)/',
+            ],
+            datasourceTemplate: 'docker',
+            depNameTemplate: 'alpine',
+            currentValueTemplate: '{{{ replace "_" "." currentValue }}}',
+            versioningTemplate: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)$',
+            autoReplaceStringTemplate: '// renovate: datasource=repology depName=alpine_{{{newMajor}}}_{{{newMinor}}}',
         },
     ],
     packageRules: [
         {
             matchDatasources: ['docker'],
+            matchManagers: ['dockerfile'],
             matchCurrentValue: '!/^latest$/',
             pinDigests: true,
         },
