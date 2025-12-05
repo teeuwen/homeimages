@@ -1,5 +1,5 @@
 variable "POSTFIX_VERSION" {
-  // renovate: datasource=repology depName=alpine_3_22/postfix versioning=loose
+  // renovate: datasource=repology depName=alpine_3_23/postfix versioning=loose
   default = "3.10.6-r0"
 }
 
