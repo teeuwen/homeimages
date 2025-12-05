@@ -34,7 +34,7 @@
                 '// renovate: datasource=repology depName=alpine_(?<currentValue>\\d+_\\d+)/',
             ],
             datasourceTemplate: 'docker',
-            depNameTemplate: 'alpine',
+            depNameTemplate: 'public.ecr.aws/docker/library/alpine',
             currentValueTemplate: '{{{ replace "_" "." currentValue }}}',
             versioningTemplate: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)$',
             autoReplaceStringTemplate: '// renovate: datasource=repology depName=alpine_{{{newMajor}}}_{{{newMinor}}}',
@@ -46,6 +46,12 @@
             matchManagers: ['dockerfile'],
             matchCurrentValue: '!/^latest$/',
             pinDigests: true,
+        },
+        {
+            matchPackageNames: [
+                '/public\\\\.ecr\\\\.aws\\/docker\\/library\\/alpine/',
+            ],
+            groupName: 'alpine'
         },
     ],
 }
