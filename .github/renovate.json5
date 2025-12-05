@@ -31,13 +31,13 @@
                 '/^.+/docker-bake\\.hcl$/',
             ],
             matchStrings: [
-                '// renovate: datasource=repology depName=alpine_(?<currentValue>\\d+_\\d+)/',
+                '// renovate: datasource=repology depName=alpine_(?<currentValue>\\d+[_.]\\d+)/',
             ],
             datasourceTemplate: 'docker',
             depNameTemplate: 'public.ecr.aws/docker/library/alpine',
             currentValueTemplate: '{{{ replace "_" "." currentValue }}}',
-            versioningTemplate: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)$',
-            autoReplaceStringTemplate: '// renovate: datasource=repology depName=alpine_{{{newMajor}}}_{{{newMinor}}}',
+            versioningTemplate: 'regex:^(?<major>\\d+)[_.](?<minor>\\d+)$',
+            autoReplaceStringTemplate: '// renovate: datasource=repology depName=alpine_{{{newMajor}}}_{{{newMinor}}}/',
         },
     ],
     packageRules: [
