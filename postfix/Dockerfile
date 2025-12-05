@@ -3,7 +3,8 @@ ARG POSTFIX_VERSION
 
 RUN apk add --no-cache \
     postfix=${POSTFIX_VERSION} \
-    postfix-mysql=${POSTFIX_VERSION}
+    postfix-mysql=${POSTFIX_VERSION} \
+    postfix-pgsql=${POSTFIX_VERSION}
 
 COPY --chmod=755 entrypoint.sh /
 
